@@ -56,6 +56,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MatrixCalculators\MultComMatrices.cs" />
+    <Compile Include="MatrixCalculators\MultDivMatrices.cs" />
+    <Compile Include="MatrixCalculators\TransComMatrixes.cs" />
+    <Compile Include="MatrixCalculators\TransDivMatrixes.cs" />
     <Page Include="CircularProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -64,8 +68,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AddComMatrixes.cs" />
-    <Compile Include="AddDivMatrixes.cs" />
+    <Compile Include="MatrixCalculators\AddComMatrixes.cs" />
+    <Compile Include="MatrixCalculators\AddDivMatrixes.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -81,7 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Matrix.cs" />
-    <Compile Include="ProcessMatrixes.cs" />
+    <Compile Include="MatrixCalculators\ProcessMatrixes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

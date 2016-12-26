@@ -26,17 +26,18 @@
         </Grid>
         <Grid x:Name="GridControls" Grid.Column="3">
             <Grid.RowDefinitions>
-                <RowDefinition Height="45"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition Height="30"/>
-                <RowDefinition Height="45"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition Height="30"/>
-                <RowDefinition Height="82"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition/>
-                <RowDefinition Height="46"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="8" Margin="65,19,65,18">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="9" Margin="65,19,65,18">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
@@ -50,12 +51,12 @@
                 </StackPanel>
                 <Slider x:Name="Slider" Grid.Row="1" Maximum="100" Value="0" Visibility="Collapsed" ValueChanged="Slider_ValueChanged"/>
             </Grid>
-            <Button x:Name="button" Content="Start" HorizontalAlignment="Center" Margin="62,0,62,10" VerticalAlignment="Bottom" Width="76" FontSize="17.333" Grid.Row="6" Click="button_Click">
+            <Button x:Name="button" Content="Start" HorizontalAlignment="Center" Margin="62,0,62,10" VerticalAlignment="Bottom" Width="76" FontSize="17.333" Grid.Row="6" Click="button_Click" Grid.RowSpan="2">
                 <Button.Background>
                     <SolidColorBrush Color="#FFFBFBFB" Opacity="0.5"/>
                 </Button.Background>
             </Button>
-            <Label x:Name="label_Copy2" Content="Matrix A" HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="17.333" VerticalAlignment="Top"/>
+            <Label x:Name="label_Copy2" Content="Matrix A" HorizontalAlignment="Center" Margin="63,-2,63,0" FontSize="17.333" VerticalAlignment="Top"/>
             <Grid Margin="0" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="7*"/>
@@ -76,21 +77,24 @@
                 <ComboBox x:Name="ComboBy" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="47" Grid.Column="2" Background="{x:Null}" SelectionChanged="ComboBy_SelectionChanged"/>
                 <Label x:Name="label3" Content="x" HorizontalAlignment="Center" Margin="0,-7,0,0" VerticalAlignment="Center" Grid.Column="1" FontSize="21.333"/>
             </Grid>
-            <Label x:Name="label_Copy3" Content="Matrix B" HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="17.333" VerticalAlignment="Top" Grid.Row="2"/>
-            <Label x:Name="LabelStopWatch" Content="00:00:00" HorizontalAlignment="Center" Margin="0" Grid.Row="7" VerticalAlignment="Center" FontSize="18.667" Padding="0"/>
-            <Grid Margin="0" Grid.Row="5" d:IsHidden="True">
+            <Label x:Name="label_Copy3" Content="Matrix B" HorizontalAlignment="Center" Margin="64,28,64,0" FontSize="17.333" VerticalAlignment="Top" Grid.Row="1" Grid.RowSpan="2"/>
+            <Label x:Name="LabelStopWatch" Content="00:00.00" HorizontalAlignment="Center" Margin="66,0" Grid.Row="8" VerticalAlignment="Center" FontSize="18.667" Padding="0"/>
+            <Grid Margin="0,0,0,40" Grid.Row="7" d:IsHidden="True">
                 <Image x:Name="image" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" Source="Resources/krasota-009.jpg" Stretch="UniformToFill"/>
             </Grid>
-            <ComboBox x:Name="ComboNofProc" HorizontalAlignment="Right" Margin="0,5,35,55" VerticalAlignment="Center" Width="47" Background="{x:Null}" SelectionChanged="ComboNofProc_SelectionChanged" Grid.Row="4" SelectedIndex="1">
+            <ComboBox x:Name="ComboNofProc" HorizontalAlignment="Right" Margin="0,7,35,0" VerticalAlignment="Top" Width="47" Background="{x:Null}" SelectionChanged="ComboNofProc_SelectionChanged" Grid.Row="5" SelectedIndex="1">
                 <Button Background="{x:Null}" Content="1" BorderBrush="{x:Null}" IsHitTestVisible="False" IsTabStop="False" Focusable="False"/>
                 <Button Background="{x:Null}" Content="2" BorderBrush="{x:Null}" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
-                <Button Background="{x:Null}" Content="3" BorderBrush="{x:Null}" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
-                <Button Background="{x:Null}" Content="5" BorderBrush="{x:Null}" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
-                <Button Background="{x:Null}" Content="10" BorderBrush="{x:Null}" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
+                <Button Background="{x:Null}" Content="4" BorderBrush="{x:Null}" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
+                <Button Background="{x:Null}" Content="8" BorderBrush="{x:Null}" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
+                <Button Background="{x:Null}" Content="16" BorderBrush="{x:Null}" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
             </ComboBox>
-            <Label x:Name="label_Copy4" Content="Processors" HorizontalAlignment="Center" Margin="10,0,97,0" FontSize="17.333" VerticalAlignment="Top" Grid.Row="4" Width="93"/>
-            <RadioButton x:Name="RadioM1" Content="M1" GroupName="Ms" HorizontalAlignment="Left" Margin="16,38,0,0" Grid.Row="4" VerticalAlignment="Top" IsChecked="True" FontSize="14.667" Padding="4,-3,0,0"/>
-            <RadioButton x:Name="RadioM2" Content="M2" GroupName="Ms" HorizontalAlignment="Left" Margin="16,58,0,0" Grid.Row="4" VerticalAlignment="Top" FontSize="14.667" Padding="4,-3,0,0"/>
+            <Label x:Name="label_Copy4" Content="Processors" HorizontalAlignment="Center" Margin="10,34,97,0" FontSize="17.333" VerticalAlignment="Top" Grid.Row="4" Width="93" Grid.RowSpan="2"/>
+            <RadioButton x:Name="RadioM1" Content="M1" GroupName="Ms" HorizontalAlignment="Left" Margin="16,37,0,0" Grid.Row="5" VerticalAlignment="Top" IsChecked="True" FontSize="14.667" Padding="4,-3,0,0"/>
+            <RadioButton x:Name="RadioM2" Content="M2" GroupName="Ms" HorizontalAlignment="Left" Margin="16,57,0,0" Grid.Row="5" VerticalAlignment="Top" FontSize="14.667" Padding="4,-3,0,0"/>
+            <RadioButton x:Name="RadioAddition" Content="+" HorizontalAlignment="Left" Height="20" Margin="16,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="40" FontSize="16" FontWeight="Bold" Padding="4,-5,0,0" Checked="RadioAddition_Checked" IsChecked="True"/>
+            <RadioButton x:Name="RadioMult" Content="*" HorizontalAlignment="Left" Height="20" Margin="78,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="40" FontSize="16" FontWeight="Bold" Padding="4,-5,0,0" Checked="RadioMult_Checked"/>
+            <RadioButton x:Name="RadioTransp" Content="T" HorizontalAlignment="Left" Height="20" Margin="141,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="40" FontSize="16" FontWeight="Bold" Padding="4,-5,0,0" Checked="RadioTransp_Checked"/>
         </Grid>
 
     </Grid>

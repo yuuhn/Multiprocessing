@@ -8,7 +8,6 @@ namespace Multiprocessing
     
     internal class AddDivMatrixes : ProcessMatrixes
     {
-        
         private readonly object _lockObj = new object();
 
         public AddDivMatrixes(Slider slider, Matrix a, Matrix b, int proc) : base(slider, a, b, proc)
@@ -18,10 +17,11 @@ namespace Multiprocessing
 
         private void DividedControlAdditionThread()
         {
+            IntPoint myTask;
             while (true)
             {
-                IntPoint myTask;
                 lock (_lockObj)
+                {
                     if (NotDone.Count > 0)
                     {
                         myTask = NotDone.First();
@@ -29,15 +29,16 @@ namespace Multiprocessing
                     }
                     else
                         return;
+                }
 
                 C.Matr[myTask.X, myTask.Y] = A.Matr[myTask.X, myTask.Y] + B.Matr[myTask.X, myTask.Y];
 
-                ChangeSlider(100 - NotDone.Count*100/X/Y);
-                Thread.Sleep(1);
+                ChangeDoneWork(100 - NotDone.Count * 100 / Xa / Ya);
+                //ChangeSlider(100 - NotDone.Count * 100 / Xa / Ya);
             }
         }
 
-        public void DividedAddition()
+        public override void StartProccessing()
         {
             for (var i = 0; i < Processors; i++)
             {

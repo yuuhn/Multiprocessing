@@ -6,12 +6,17 @@ namespace Multiprocessing
 {
     internal class AddComMatrixes : ProcessMatrixes
     {
-        private readonly object _lockObj = new object();
+        private readonly object[] _lockObjs;
         private readonly IntPoint[] _tasksForSpecialProcessors;
 
         public AddComMatrixes(Slider slider, Matrix a, Matrix b, int proc) : base(slider, a, b, proc + 1)
         {
             _tasksForSpecialProcessors = new IntPoint[proc];
+            _lockObjs = new object[proc];
+            for (int i = 0; i < proc; i++)
+            {
+                _lockObjs[i] = new object();
+            }
         }
 
         private void ControlThread()
@@ -26,20 +31,33 @@ namespace Multiprocessing
                     NotDone.RemoveAt(0);
                 }
             }
+
+
+            for (var i = 0; i < Processors - 1; i++)
+            {
+                ProcessorsThreads[i] = new Thread(CombinedControlAdditionThread) { Name = "Thread" + i };
+                ProcessorsThreads[i].Start();
+            }
+
+
             while (true)
             {
                 for (var i = 0; i < _tasksForSpecialProcessors.Length; i++)
-                    lock (_lockObj)
+                {
+                    counter++;
+                    if (NotDone.Count == 0)
                     {
-                        if (NotDone.Count == 0)
-                        {
-                            ChangeSlider(100);
-                            break;
-                        }
-                        if (_tasksForSpecialProcessors[i].X != -1) continue;
-                        _tasksForSpecialProcessors[i] = NotDone[0];
-                        NotDone.RemoveAt(0);
+                        //ChangeSlider(100);
+                        break;
                     }
+
+                    if (_tasksForSpecialProcessors[i].X != -1) continue;
+                    lock (_lockObjs[i])
+                    {
+                        _tasksForSpecialProcessors[i] = NotDone[0];
+                    }
+                    NotDone.RemoveAt(0);
+                }
             }
         }
 
@@ -53,34 +71,36 @@ namespace Multiprocessing
             while (true)
             {
                 IntPoint myTask;
-                lock (_lockObj)
-                    if (_tasksForSpecialProcessors[myId].X != -1)
+                lock (_lockObjs[myId])
+                {
+                    if (_tasksForSpecialProcessors[myId].X == -1)
                     {
-                        myTask = _tasksForSpecialProcessors[myId];
-                        _tasksForSpecialProcessors[myId].X = -1;
-                    }
-                    else
-                    {
-                        Thread.Sleep(1);
                         continue;
                     }
 
+                    myTask = _tasksForSpecialProcessors[myId];
+                    _tasksForSpecialProcessors[myId].X = -1;
+                }
+
                 C.Matr[myTask.X, myTask.Y] = A.Matr[myTask.X, myTask.Y] + B.Matr[myTask.X, myTask.Y];
 
-                ChangeSlider(100 - NotDone.Count * 100 / X / Y);
-                Thread.Sleep(1);
+                
+                if (100 - NotDone.Count * 100 / Xa / Ya == 100)
+                {
+                    ChangeDoneWork(100);
+                }
+                
+
+                //ChangeDoneWork(100 - NotDone.Count * 100 / Xa / Ya);
+                //ChangeSlider(100 - NotDone.Count * 100 / Xa / Ya);
+                //Thread.Sleep(1);
             }
         }
 
-        public void CommonAddition()
+        public override void StartProccessing()
         {
             ProcessorsThreads[Processors - 1] = new Thread(ControlThread) { Name = "ThreadControl" };
             ProcessorsThreads[Processors - 1].Start();
-            for (var i = 0; i < Processors - 1; i++)
-            {
-                ProcessorsThreads[i] = new Thread(CombinedControlAdditionThread) { Name = "Thread" + i };
-                ProcessorsThreads[i].Start();
-            }
         }
     }
 }
