@@ -40,8 +40,6 @@ namespace Multiprocessing
                 C.Matr[myTask.X, myTask.Y] = cell;
 
                 ChangeDoneWork(100 - NotDone.Count * 100 / Xa / Yb);
-                //ChangeSlider(100 - NotDone.Count * 100 / Xa / Yb);
-                //Thread.Sleep(10);
             }
         }
 

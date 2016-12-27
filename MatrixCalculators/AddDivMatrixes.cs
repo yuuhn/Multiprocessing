@@ -29,12 +29,21 @@ namespace Multiprocessing
                     }
                     else
                         return;
+                    /*
+                    if (Thread.CurrentThread.Name == "0")
+                    {
+                        counter++;
+                    }
+                    if (Thread.CurrentThread.Name == "1")
+                    {
+                        counterReLoop++;
+                    }
+                    */
                 }
 
                 C.Matr[myTask.X, myTask.Y] = A.Matr[myTask.X, myTask.Y] + B.Matr[myTask.X, myTask.Y];
 
                 ChangeDoneWork(100 - NotDone.Count * 100 / Xa / Ya);
-                //ChangeSlider(100 - NotDone.Count * 100 / Xa / Ya);
             }
         }
 

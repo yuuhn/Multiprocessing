@@ -26,7 +26,9 @@ namespace Multiprocessing
 
         public int DoneOfWork = 0;
         private object _objAccess;
-        public int counter = 0;
+
+        //public int counter = 0;
+        //public int counterReLoop = 0;
 
         public ProcessMatrixes(Slider slider, Matrix a, Matrix b, int proc)
         {
@@ -53,6 +55,7 @@ namespace Multiprocessing
                 if (DoneOfWork < newDone)
                 {
                     DoneOfWork = newDone;
+                    ChangeSlider(newDone);
                 }
             }
         }
@@ -97,8 +100,8 @@ namespace Multiprocessing
 
         public void Abort()
         {
-            foreach (var thread in ProcessorsThreads.Where(thread => thread != null && thread.ThreadState != ThreadState.Stopped))
-                thread?.Abort();
+            foreach (var thread in ProcessorsThreads.Where(thread => thread != null && thread.IsAlive == true))
+                thread.Abort();
         }
     }
 }

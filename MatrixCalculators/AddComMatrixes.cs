@@ -6,17 +6,12 @@ namespace Multiprocessing
 {
     internal class AddComMatrixes : ProcessMatrixes
     {
-        private readonly object[] _lockObjs;
+        //private readonly object[] _lockObjs;
         private readonly IntPoint[] _tasksForSpecialProcessors;
 
         public AddComMatrixes(Slider slider, Matrix a, Matrix b, int proc) : base(slider, a, b, proc + 1)
         {
             _tasksForSpecialProcessors = new IntPoint[proc];
-            _lockObjs = new object[proc];
-            for (int i = 0; i < proc; i++)
-            {
-                _lockObjs[i] = new object();
-            }
         }
 
         private void ControlThread()
@@ -39,25 +34,23 @@ namespace Multiprocessing
                 ProcessorsThreads[i].Start();
             }
 
+            int j = -1;
 
             while (true)
             {
-                for (var i = 0; i < _tasksForSpecialProcessors.Length; i++)
-                {
-                    counter++;
-                    if (NotDone.Count == 0)
-                    {
-                        //ChangeSlider(100);
-                        break;
-                    }
+                j++;
+                if (j == Processors - 1)
+                    j = 0;
+                
+                if (NotDone.Count == 0)
+                    break;
 
-                    if (_tasksForSpecialProcessors[i].X != -1) continue;
-                    lock (_lockObjs[i])
-                    {
-                        _tasksForSpecialProcessors[i] = NotDone[0];
-                    }
+                if (_tasksForSpecialProcessors[j].X == -1)
+                {
+                    _tasksForSpecialProcessors[j] = NotDone[0];
                     NotDone.RemoveAt(0);
                 }
+                
             }
         }
 
@@ -68,32 +61,22 @@ namespace Multiprocessing
                 myId = Convert.ToInt16(Thread.CurrentThread.Name.Substring(6, Thread.CurrentThread.Name.Length - 6));
             else
                 return;
+            
+            IntPoint myTask;
+
             while (true)
             {
-                IntPoint myTask;
-                lock (_lockObjs[myId])
+                if (_tasksForSpecialProcessors[myId].X == -1)
                 {
-                    if (_tasksForSpecialProcessors[myId].X == -1)
-                    {
-                        continue;
-                    }
-
-                    myTask = _tasksForSpecialProcessors[myId];
-                    _tasksForSpecialProcessors[myId].X = -1;
+                    continue;
                 }
+
+                myTask = _tasksForSpecialProcessors[myId];
+                _tasksForSpecialProcessors[myId].X = -1;
 
                 C.Matr[myTask.X, myTask.Y] = A.Matr[myTask.X, myTask.Y] + B.Matr[myTask.X, myTask.Y];
-
                 
-                if (100 - NotDone.Count * 100 / Xa / Ya == 100)
-                {
-                    ChangeDoneWork(100);
-                }
-                
-
-                //ChangeDoneWork(100 - NotDone.Count * 100 / Xa / Ya);
-                //ChangeSlider(100 - NotDone.Count * 100 / Xa / Ya);
-                //Thread.Sleep(1);
+                ChangeDoneWork(100 - NotDone.Count * 100 / Xa / Ya);
             }
         }
 

@@ -18,15 +18,6 @@ namespace Multiprocessing
         private Matrix _b;
         private int _nOfProc = 2;
 
-        /*
-        private AddDivMatrixes _addDiv;
-        private AddComMatrixes _addCom;
-        private MultDivMatrices _multDiv;
-        private MultComMatrices _multCom;
-        private TransDivMatrixes _transDiv;
-        private TransComMatrixes _transCom;
-        */
-
         private ProcessMatrixes _matrices;
 
         private readonly Random _rnd = new Random();
@@ -128,129 +119,36 @@ namespace Multiprocessing
                 TextBoxC.Text = "";
                 LockControls(false);
                 button.Content = "Abort";
-                //MessageBox.Show((string)button.Content);
 
                 switch (_chosenAction)
                 {
                     case 0:
-                        if (RadioM1.IsChecked == true)
-                        {
+                        if ((bool)RadioM1.IsChecked)
                             _matrices = new AddDivMatrixes(Slider, _a, _b, _nOfProc);
-                        }
                         else
-                        {
                             _matrices = new AddComMatrixes(Slider, _a, _b, _nOfProc);
-                        }
                         break;
                     case 1:
-                        if (RadioM1.IsChecked == true)
-                        {
+                        if ((bool)RadioM1.IsChecked)
                             _matrices = new MultDivMatrices(Slider, _a, _b, _nOfProc);
-                        }
                         else
-                        {
                             _matrices = new MultComMatrices(Slider, _a, _b, _nOfProc);
-                        }
                         break;
                     default:
-                        if (RadioM1.IsChecked == true)
-                        {
+                        if ((bool)RadioM1.IsChecked)
                             _matrices = new TransDivMatrixes(Slider, _a, _nOfProc);
-                        }
                         else
-                        {
                             _matrices = new TransComMatrixes(Slider, _a, _nOfProc);
-                        }
                         break;
                 }
                 
-                StopWatchAction(true);
                 _matrices.StartProccessing();
-
-                /*
-                switch (_chosenAction)
-                {
-                    case 0:
-                        if (RadioM1.IsChecked == true)
-                        {
-                            _addDiv = new AddDivMatrixes(Slider, _a, _b, _nOfProc);
-                            _addDiv.DividedAddition();
-                        }
-                        else
-                        {
-                            _addCom = new AddComMatrixes(Slider, _a, _b, _nOfProc);
-                            _addCom.CommonAddition();
-                        }
-                        break;
-                    case 1:
-                        if (RadioM1.IsChecked == true)
-                        {
-                            _multDiv = new MultDivMatrices(Slider, _a, _b, _nOfProc);
-                            _multDiv.DividedMultiplication();
-                        }
-                        else
-                        {
-                            _multCom = new MultComMatrices(Slider, _a, _b, _nOfProc);
-                            _multCom.CommonMultiplication();
-                        }
-                            break;
-                    default:
-                        if (RadioM1.IsChecked == true)
-                        {
-                            _transDiv = new TransDivMatrixes(Slider, _a, _nOfProc);
-                            _transDiv.DividedTranspose();
-                        }
-                        else
-                        {
-                            _transCom = new TransComMatrixes(Slider, _a, _nOfProc);
-                            _transCom.CommonTranspose();
-                        }
-                        break;
-                }
-                */
-
-
+                StopWatchAction(true);
             }
             else
             {
                 StopWatchAction(false);
                 _matrices.Abort();
-
-                /*
-                switch (_chosenAction)
-                {
-                    case 0:
-                        if (RadioM1.IsChecked == true)
-                        {
-                            _addDiv.Abort();
-                        }
-                        else
-                        {
-                            _addCom.Abort();
-                        }
-                        break;
-                    case 1:
-                        if (RadioM1.IsChecked == true)
-                        {
-                            _multDiv.Abort();
-                        }
-                        else
-                        {
-                            _multCom.Abort();
-                        }
-                            break;
-                    default:
-                        if (RadioM1.IsChecked == true)
-                        {
-                            _transDiv.Abort();
-                        }
-                        else
-                        {
-                            _transCom.Abort();
-                        }
-                        break;
-                }
-                */
                 
                 button.Content = "Start";
                 LockControls(true);
@@ -259,56 +157,14 @@ namespace Multiprocessing
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            
             label1.Content = Slider.Value;
-            if ((int)Slider.Value != 100) return;
-            
+            if ((int)Slider.Value != 100)
+                return;
 
             StopWatchAction(false);
             
             string[] lines;
 
-            /*
-            switch (_chosenAction)
-            {
-                case 0:
-                    if (RadioM1.IsChecked == true)
-                    {
-                        _addDiv.Abort();
-                        lines = _addDiv.C.MatrixToString();
-                    }
-                    else
-                    {
-                        _addCom.Abort();
-                        lines = _addCom.C.MatrixToString();
-                    }
-                    break;
-                case 1:
-                    if (RadioM1.IsChecked == true)
-                    {
-                        _multDiv.Abort();
-                        lines = _multDiv.C.MatrixToString();
-                    }
-                    else
-                    {
-                        _multCom.Abort();
-                        lines = _multCom.C.MatrixToString();
-                    }
-                        break;
-                default:
-                    if (RadioM1.IsChecked == true)
-                    {
-                        _transDiv.Abort();
-                        lines = _transDiv.C.MatrixToString();
-                    }
-                    else
-                    {
-                        _transCom.Abort();
-                        lines = _transCom.C.MatrixToString();
-                    }
-                    break;
-            }
-            */
             _matrices.Abort();
             lines = _matrices.C.MatrixToString();
 
@@ -317,22 +173,13 @@ namespace Multiprocessing
             {
                 TextBoxC.Text += line;
             }
-
-
+            
             button.Content = "Start";
             LockControls(true);
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            /*
-            _addDiv?.Abort();
-            _addCom?.Abort();
-            _multDiv?.Abort();
-            _multCom?.Abort();
-            _transCom?.Abort();
-            _transDiv?.Abort();
-            */
             _matrices?.Abort();
         }
 
@@ -356,13 +203,6 @@ namespace Multiprocessing
         {
             while (true)
             {
-                if (_matrices.DoneOfWork == 100)
-                {
-                    ChangeSlider(100);
-                    return;
-                }
-                //ChangeSlider(_matrices.DoneOfWork);
-
                 var ts = _sw.Elapsed;
                 var currentTime = $"{ts.Minutes:00}:{ts.Seconds:00}.{(double)ts.Milliseconds / 10:00}";
                 ChangeLabel(currentTime);
@@ -376,19 +216,17 @@ namespace Multiprocessing
                 Slider.Value = value;
             else
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                    new Action(() => { Slider.Value = value; }));
+                Dispatcher.BeginInvoke(new Action(() => { Slider.Value = value; }));
             }
         }
 
         private void ChangeLabel(string value)
         {
-            if (Application.Current.Dispatcher.CheckAccess())
+            if (Dispatcher.CheckAccess())
                 LabelStopWatch.Content = value;
             else
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                    new Action(() => { LabelStopWatch.Content = value; }));
+                Dispatcher.BeginInvoke(new Action(() => { LabelStopWatch.Content = value; }));
             }
         }
 
